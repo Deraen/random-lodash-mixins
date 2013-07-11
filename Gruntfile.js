@@ -25,22 +25,20 @@ module.exports = function(grunt) {
       all: ['test/**/*.js']
     },
     watch: {
-      test: {
-        files: [
-          'src/**/*.js',
-          'test/**/*.js'
-        ],
-        tasks: ['nodeunit']
-      },
-      jshint: {
-        files: '<%= jshint.all %>',
-        tasks: ['jshint']
+      files: [
+        'Gruntfile.js',
+        'src/**/*.js',
+        'test/**/*.js'
+      ],
+      tasks: ['jshint', 'nodeunit:all'],
+      options: {
+        atBegin: true
       }
     }
   });
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'nodeunit']);
+  grunt.registerTask('default', ['watch']);
 
-  grunt.registerTask('release', ['jshint', 'nodeunit', 'minwithcomments', 'concatlang', 'minlang']);
+  grunt.registerTask('release', ['jshint', 'nodeunit', 'uglify']);
 };

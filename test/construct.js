@@ -1,11 +1,10 @@
-var fu = require('../src/fu');
+var _ = require('lodash');
+require('../src/fu');
 
-exports.construct = {
-  'Construct': function (test) {
-    var a = 'test';
-    test.expect(2);
-    test.equal(fu.construct(String, a).valueOf(), a);
-    test.equal(fu.construct(String, undefined), undefined);
-    test.done();
-  }
+exports.construct = function (test) {
+  var a = 'test';
+  test.expect(2);
+  test.strictEqual(_.construct(String, a).valueOf(), a);
+  test.strictEqual(_.construct(String, undefined), undefined);
+  test.done();
 };

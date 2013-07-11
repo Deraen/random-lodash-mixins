@@ -1,18 +1,23 @@
-/* global define */
-
 (function (undefined) {
-  var fu = {};
-  var hasModule = (typeof module !== 'undefined' && module.exports);
-
-  var _ = _;
-  if (hasModule) {
+  var _;
+  if (typeof require === 'function') {
     _ = require('lodash');
+  } else {
+    _ = window._;
   }
 
+  var mixins = {};
+
   /*
-  If value is defined construct a new Object with given constructor.
+  If value is defined use given constructor to create a new Object.
+
+  new Date(undefined) => Invalid Date
+
+  vs.
+
+  _.construct(Date, undefined) => undefined
   */
-  fu.construct = function (Target, value) {
+  mixins.construct = function construct(Target, value) {
     if (typeof value !== 'undefined') {
       return new Target(value);
     } else {
@@ -21,22 +26,34 @@
   };
 
   /*
-  Returns a deep copy of object with empty or undefined properties removed.
+  Returns a deep copy of the object with empty or undefined properties removed.
+
+  Use case: Mongo query
+
+  var q = {user: user._id};
+  if (request.params.from) q.from = {$lt: new Date(request.params.from)};
+
+  vs.
+
+  var q = _.clean({
+    user: user._id,
+    from: {$lt: _.construct(Date, request.params.from)}
+  });
   */
-  fu.compact = function compact(object) {
+  mixins.clean = function clean(object) {
     var r = {};
 
     for (var key in object) {
       var value = object[key];
 
       if (_.isPlainObject(value)) {
-        value = compact(value);
+        value = clean(value);
         if (_.isEmpty(value)) {
           value = undefined;
         }
       }
 
-      if (typeof value !== 'undefined') {
+      if (!_.isUndefined(value)) {
         r[key] = value;
       }
     }
@@ -46,10 +63,12 @@
 
   /*
   Prepends data to a array.
+
+  socket.on('users:new', _.partial(_.prepend, $scope.users));
   */
-  fu.prepend = function (collection, data) {
+  mixins.prepend = function prepend(collection, data) {
     if (_.isArray(data)) {
-      Array.prototype.splice.bind(collection, 0, 0).apply(data);
+      _.partial(Array.prototype.splice, 0, 0).apply(collection, data);
     } else {
       collection.splice(0, 0, data);
     }
@@ -58,8 +77,10 @@
 
   /*
   Append data to a array.
+
+  socket.on('users:list', _.partial(_.append, $scope.users));
   */
-  fu.append = function (collection, data) {
+  mixins.append = function append(collection, data) {
     if (_.isArray(data)) {
       Array.prototype.push.apply(collection, data);
     } else {
@@ -69,31 +90,56 @@
   };
 
   /*
-  Remove a object from collection.
+  Internal helper
   */
-  fu.removeFirst = function (collection, where) {
-    var cb = _.createCallback(where);
-
-    if (_.isObject(where)) {
-      var j = null;
-      for (var i = 0; !j && i < collection.length; ++i) {
-        if (cb(collection[i])) {
-          j = i;
-        }
-      }
-      where = j;
+  function indexOf(callback) {
+    if (_.isPlainObject(callback)) {
+      return _.findIndex;
+    } else {
+      return _.indexOf;
     }
+  }
 
-    if (where !== null) {
-      collection.splice(where, 1);
+  /*
+  Remove the first matching object from collection.
+
+  // Event data eg. {_id: '...'}
+  socket.on('user:removed', _.partial(_.removeFirst, $scope.users));
+  */
+  mixins.removeFirst = function removeFirst(collection, callback) {
+    var i = indexOf(callback)(collection, callback);
+
+    if (i >= 0) {
+      collection.splice(i, 1);
+    }
+    return collection;
+  };
+
+  /*
+  Remove all matching objects from collection.
+  */
+  mixins.remove = function remove(collection, callback) {
+    var i;
+    var find = indexOf(callback);
+
+    while ((i = find(collection, callback)) >= 0) {
+      collection.splice(i, 1);
     }
     return collection;
   };
 
   /*
   Set property in target object to given value
+
+  socket.on('state', function (data) {
+    $scope.state = data;
+  });
+
+  vs.
+
+  socket.on('state', _.partial(_.set, $scope, 'state'));
   */
-  fu.set = function (target, key, value) {
+  mixins.set = function set(target, key, value) {
     target[key] = value;
     return target;
   };
@@ -101,21 +147,48 @@
   /*
   Get a property from object if it exists.
   */
-  fu.get = function (object, key) {
-    if (object && object.hasOwnPropery(key)) {
-      return object[key];
-    } else {
-      return undefined;
-    }
+  mixins.get = _.result;
+
+  /*
+  Pattern matching
+
+  var a = undefined; a = {}; a = 5; a = "running"; a = [{a: 'collection'}]
+  _.match(a, [
+    ["running", function () console.log('...')],
+    [_.isUndefined, function () console.log('Input was undefined')],
+    [_.isEmpty, function () console.log('Input was empty')],
+    [Number, function () console.log('Input was a number')],
+    [_.and(_.isArray, _.partialRight(_.all, _.partial(_.has, 'a'))), function () console.log('Collections every element has property \'a\'')],
+    function () console.log('Default')
+  ]);
+  */
+  mixins.match = function match(input, patterns) {
+    patterns = _.rest(arguments);
+
+    _.some(patterns, function (pattern) {
+      // Default case
+      if (_.isFunction(pattern)) {
+        pattern(input);
+        return true;
+      }
+
+      // pattern.length should always be 2
+      var test = pattern[0];
+      var cb = pattern[1];
+      if (
+        _.isFunction(test) && (
+          (input !== undefined && input !== null && input.constructor === test) || // (5).constructor === Number
+          test(input) // _.isEmpty({})
+        ) ||
+        input.valueOf() === test.valueOf() // "running".valueOf() === "running".valueOf()
+      ) {
+        cb(input);
+        return true; // stop forEach
+      }
+    });
+
+    return input;
   };
 
-  //
-  if (hasModule) {
-    module.exports = fu;
-  }
-  if (typeof define === 'function' && define.amd) {
-    define('fu', ['lodash'], function () {
-      return fu;
-    });
-  }
+  _.mixin(mixins);
 }).call(this);
