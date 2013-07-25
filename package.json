@@ -1,5 +1,6 @@
 {
-  "name": "fu",
+  "name": "random-lodash-mixins",
+  "main": "./src/random-lodash-mixins.js",
   "version": "0.1.0",
   "devDependencies": {
     "grunt": "~0.4.1",
