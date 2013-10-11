@@ -37,7 +37,7 @@ socket.on('users:list', _.partial(_.append, $scope.users));
 ### _.removeFirst(array, callback)
 
 Remove the first matching object from collection.
-If the callback is [POJ](http://lodash.com/docs#isPlainObject) or function
+If the callback is [POJO](http://lodash.com/docs#isPlainObject) or function
 [_.findIndex](http://lodash.com/docs#findIndex) is used to find element to be removed.
 Otherwise [_.indexOf](http://lodash.com/docs#indexOf) is used.
 
