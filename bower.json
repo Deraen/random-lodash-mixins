@@ -1,0 +1,14 @@
+{
+  "name": "random-lodash-mixins",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Deraen/random-lodash-mixins",
+  "authors": [
+    "Juho Teperi <juho.teperi@iki.fi>"
+  ],
+  "description": "Some functions Lodash is missing but I have found useful.",
+  "main": "./src/random-lodash-mixins.js",
+  "keywords": [
+    "lodash"
+  ],
+  "license": "MIT"
+}
