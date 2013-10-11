@@ -4,17 +4,15 @@ var _ = require('lodash');
 require('../src/random-lodash-mixins');
 
 describe('_.append', function() {
-  it('append a number into array', function(done) {
+  it('append a number into array', function() {
     var a = [1];
     _.append(a, 2);
     a.should.deep.equal([1, 2]);
-    done();
   });
 
-  it('append array of numbers into array', function(done) {
+  it('append array of numbers into array', function() {
     var a = [1];
     _.append(a, [2, 3]);
     a.should.deep.equal([1, 2, 3]);
-    done();
   });
 });
