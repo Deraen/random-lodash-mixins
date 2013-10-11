@@ -1,15 +1,20 @@
+var chai = require('chai');
+var should = chai.should();
 var _ = require('lodash');
-require('../src/fu');
+require('../src/random-lodash-mixins');
 
-exports.append = function (test) {
-  test.expect(2);
-  var a = [1];
-  _.append(a, 2);
-  test.ok(_.isEqual(a, [1, 2]));
+describe('_.append', function() {
+  it('append a number into array', function(done) {
+    var a = [1];
+    _.append(a, 2);
+    a.should.deep.equal([1, 2]);
+    done();
+  });
 
-  var b = [1];
-  _.append(b, [2, 3]);
-  test.ok(_.isEqual(b, [1, 2, 3]));
-
-  test.done();
-};
+  it('append array of numbers into array', function(done) {
+    var a = [1];
+    _.append(a, [2, 3]);
+    a.should.deep.equal([1, 2, 3]);
+    done();
+  });
+});

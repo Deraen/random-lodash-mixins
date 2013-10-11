@@ -1,32 +1,36 @@
+var chai = require('chai');
+var should = chai.should();
 var _ = require('lodash');
-require('../src/fu');
+require('../src/random-lodash-mixins');
 
-exports.remove = function (test) {
-  test.expect(2);
-  var success;
+describe('_.removeFirst', function() {
+  it('should remove first matched Number', function(done) {
+    var a = [1, 1, 2];
+    _.removeFirst(a, 1);
+    a.should.deep.equal([1, 2]);
+    done();
+  });
 
-  var a = [1, 1, 2];
-  success = [2];
-  _.remove(a, 1);
-  test.ok(_.isEqual(a, success), a + ' !== ' + success);
+  it('should remove first matched Object', function(done) {
+    var a = [{a: 0}, {a: 0}, {a: 1}];
+    _.removeFirst(a, {a: 0});
+    a.should.deep.equal([{a: 0}, {a: 1}]);
+    done();
+  });
+});
 
-  var b = [{a: 0}, {a: 0}, {b: 1}];
-  _.remove(b, {a: 0});
-  test.ok(_.isEqual(b, [{b: 1}]));
+describe('_.remove', function() {
+  it('should remove matched Numbers', function(done) {
+    var a = [1, 1, 2];
+    _.remove(a, 1);
+    a.should.deep.equal([2]);
+    done();
+  });
 
-  test.done();
-};
-
-exports.removeFirst = function (test) {
-  test.expect(2);
-
-  var a = [1, 3, 1, 2];
-  _.removeFirst(a, 1);
-  test.ok(_.isEqual(a, [3, 1, 2]));
-
-  var b = [{a: 0}, {c: 2}, {a: 0}, {b: 1}];
-  _.removeFirst(b, {a: 0});
-  test.ok(_.isEqual(b, [{c: 2}, {a: 0}, {b: 1}]));
-
-  test.done();
-};
+  it('should remove matched Objects', function(done) {
+    var a = [{a: 0}, {a: 0}, {a: 1}];
+    _.remove(a, {a: 0});
+    a.should.deep.equal([{a: 1}]);
+    done();
+  });
+});

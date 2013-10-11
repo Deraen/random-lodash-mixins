@@ -1,10 +1,14 @@
+var chai = require('chai');
+var should = chai.should();
 var _ = require('lodash');
-require('../src/fu');
+require('../src/random-lodash-mixins');
 
-exports.construct = function (test) {
-  var a = 'test';
-  test.expect(2);
-  test.strictEqual(_.construct(String, a).valueOf(), a);
-  test.strictEqual(_.construct(String, undefined), undefined);
-  test.done();
-};
+describe('_.construct', function () {
+  it('should give Object if parameter is defined', function() {
+    _.construct(String, 'test').should.equal('test');
+  });
+
+  it('should return undefined if parameter is not defined', function() {
+    should.not.exist(_.construct(String));
+  });
+});

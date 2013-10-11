@@ -21,8 +21,13 @@ module.exports = function(grunt) {
         jshintrc: '.jshintrc'
       }
     },
-    nodeunit: {
-      all: ['test/**/*.js']
+    mochaTest: {
+      options: {
+        reporter: 'spec'
+      },
+      unit: {
+        src: ['test/**/*.js']
+      }
     },
     watch: {
       files: [
@@ -30,7 +35,7 @@ module.exports = function(grunt) {
         'src/**/*.js',
         'test/**/*.js'
       ],
-      tasks: ['jshint', 'nodeunit:all'],
+      tasks: ['jshint', 'mochaTest'],
       options: {
         atBegin: true
       }
@@ -40,5 +45,5 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', ['watch']);
 
-  grunt.registerTask('release', ['jshint', 'nodeunit', 'uglify']);
+  grunt.registerTask('release', ['jshint', 'mochaTest', 'uglify']);
 };

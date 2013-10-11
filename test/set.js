@@ -1,12 +1,18 @@
+var chai = require('chai');
+var should = chai.should();
 var _ = require('lodash');
-require('../src/fu');
+require('../src/random-lodash-mixins');
 
-exports.set = function (test) {
-  test.expect(1);
+describe('_.set', function() {
+  it('should add propery into object', function() {
+    var a = {};
+    _.set(a, 'a', 1);
+    a.a.should.equal(1);
+  });
 
-  var a = {};
-  _.set(a, 'a', 1);
-  test.ok(_.isEqual(a, {a: 1}));
-
-  test.done();
-};
+  it('should change value of object', function() {
+    var a = {a: 1};
+    _.set(a, 'a', 2);
+    a.a.should.equal(2);
+  });
+});

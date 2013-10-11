@@ -50,7 +50,7 @@ _.removeFirst(a, {k: 1}); // a = ['a', 'b', {k: 2, foo: 3}, {k: 1, foo: 2}];
 socket.on('user:removed', _.partial(_.removeFirst, $scope.users));
 ```
 
-### _.removeAll(array, callback)
+### _.remove(array, callback)
 
 Like _.removeFirst except removes all matches instead of the first.
 
