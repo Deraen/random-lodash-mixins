@@ -29,4 +29,12 @@ describe('_.remove', function() {
     _.remove(a, {a: 0});
     a.should.deep.equal([{a: 1}]);
   });
+
+  it('should remove elements for which a custom function returns true', function() {
+    var a = [1, 2, 3, 4, 5, 6];
+    _.remove(a, function(val) {
+      return val % 2 === 0;
+    });
+    a.should.deep.equal([1, 3, 5]);
+  });
 });

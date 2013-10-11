@@ -56,7 +56,7 @@
   };
 
   function indexOf(callback) {
-    if (_.isPlainObject(callback)) {
+    if (_.isPlainObject(callback) || _.isFunction(callback)) {
       return _.findIndex;
     } else {
       return _.indexOf;
