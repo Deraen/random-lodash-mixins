@@ -82,10 +82,6 @@
     return collection;
   };
 
-  socket.on('state', function (data) {
-    $scope.state = data;
-  });
-
   mixins.set = function set(target, key, value) {
     target[key] = value;
     return target;
