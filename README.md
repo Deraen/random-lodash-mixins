@@ -34,26 +34,6 @@ _.append(a, [3, 4]); // a = [1, 2, -1, 3, 4];
 socket.on('users:list', _.partial(_.append, $scope.users));
 ```
 
-### _.removeFirst(array, callback)
-
-Remove the first matching object from collection.
-If the callback is [POJO](http://lodash.com/docs#isPlainObject) or function
-[_.findIndex](http://lodash.com/docs#findIndex) is used to find element to be removed.
-Otherwise [_.indexOf](http://lodash.com/docs#indexOf) is used.
-
-```
-var a = ['a', 'b', 'b', {k: 1, foo: 2}, {k: 2, foo: 3}, {k: 1, foo: 2}];
-_.removeFirst(a, 'b'); // a = ['a', 'b', {k: 1, foo: 2}, {k: 2, foo: 3}, {k: 1, foo: 2}];
-_.removeFirst(a, {k: 1}); // a = ['a', 'b', {k: 2, foo: 3}, {k: 1, foo: 2}];
-
-// user:removed events first parameter is e.g. {_id: 'foo'}
-socket.on('user:removed', _.partial(_.removeFirst, $scope.users));
-```
-
-### _.remove(array, callback)
-
-Like _.removeFirst except removes all matches instead of the first.
-
 
 ## Object manipulation
 

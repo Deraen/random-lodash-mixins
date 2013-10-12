@@ -63,25 +63,6 @@
     }
   }
 
-  mixins.removeFirst = function removeFirst(collection, callback) {
-    var i = indexOf(callback)(collection, callback);
-
-    if (i >= 0) {
-      collection.splice(i, 1);
-    }
-    return collection;
-  };
-
-  mixins.remove = function remove(collection, callback) {
-    var i;
-    var find = indexOf(callback);
-
-    while ((i = find(collection, callback)) >= 0) {
-      collection.splice(i, 1);
-    }
-    return collection;
-  };
-
   mixins.set = function set(target, key, value) {
     target[key] = value;
     return target;
