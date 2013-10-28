@@ -1,6 +1,6 @@
 # Random functions
 
-Some functions Lodash is missing but I have found useful.
+Some functions Lo-Dash is missing but I have found useful.
 
 Documentation contains some usage examples.
 In addition to simple examples there are some particulary
@@ -9,31 +9,40 @@ good use cases using AngularJS + Socket.io.
 
 ## Array manipulation
 
-Angularjs data-binding breaks if you try to replace array in
-$scope with a copy of array e.g. a new Object.
-So if you want to append or prepend data to a collection in the scope you
-should modify the current Array.
+I removed these functions as Lo-Dash already provides [_.remove](http://lodash.com/docs#remove)
+and append and prepend can be done with native JS and Lo-Dash.
 
-### _.prepend(array, element)
+Below are examples to use Array.unshift and push.
 
-```
-var a = [1, 2];
-_.prepend(a, -1); // a = [-1, 1, 2];
-_.prepend(a, [3, 4]); // a = [3, 4, -1, 1, 2];
-
-socket.on('users:new', _.partial(_.prepend, $scope.users));
-```
-
-### _.append(array, element)
+### prepend
 
 ```
 var a = [1, 2];
-_.append(a, -1); // a = [1, 2, -1];
-_.append(a, [3, 4]); // a = [1, 2, -1, 3, 4];
+var arrayRef = [];
+var unshift = arrayRef.unshift;
 
-socket.on('users:list', _.partial(_.append, $scope.users));
+// Single element
+a.unshift(-1); // a = [-1, 1, 2];
+
+// Callback
+socket.on('users:new', _.bind(_.call, $scope.users.unshift, $scope.users)); // or
+socket.on('users:new', _.bind(_.call, unshift, $scope.users));
+
+// Multiple elements
+unshift.apply(a, [-3, -2]); // a = [-3, -2, -1, 1, 2];
+
+// Callback
+socket.on('users:list', _.bind(_.apply, $scope.users.unshift, $scope.users)); // or
+socket.on('users:list', _.bind(_.apply, unshift, $scope.users));
 ```
 
+### append
+
+```
+var push = arrayRef.push;
+
+// Use $scope.users.push / .push / etc.
+```
 
 ## Object manipulation
 
