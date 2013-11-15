@@ -66,6 +66,26 @@ socket.on('state', _.partial(_.set, $scope, 'state'));
 ### _.get(object, key)
 Alias for [_.result](http://lodash.com/docs#result).
 
+### _.flattenObj(object[, separator])
+Returns a new object.
+
+Default separator is '.'
+
+```
+var a = {a: {b: {c: {d: 1}}}, e: {f: {g: 2}, c: 3}};
+_.flattenObj(a); // => {'a.b.c.d': 1, 'e.f.g': 2, 'e.c': 3};
+```
+
+### _.unflattenObj(object[, separator])
+Returns a new object.
+
+Default separator is '.'
+
+```
+var a = {'a.b.c.d': 1, 'e.f.g': 2, 'e.c': 3};
+_.unflattenObj(a); // => {a: {b: {c: {d: 1}}}, e: {f: {g: 2}, c: 3}}
+```
+
 ## Misc
 
 ### _.construct(Constructor, value)
