@@ -44,5 +44,47 @@
 
   mixins.get = _.result;
 
+  function flatten(obj, separator, into, prefix) {
+    _.each(obj, function(v, k) {
+      if (_.isPlainObject(v)) {
+        flatten(obj[k], separator, into, prefix + k + separator);
+      } else {
+        into[prefix + k] = v;
+      }
+    });
+    return into;
+  }
+
+  mixins.flattenObj = function(obj, separator) {
+    separator = separator || '.';
+    return flatten(obj, separator, {}, '');
+  };
+
+  function unflatten(obj, separator, into) {
+    _.each(obj, function(v, k) {
+      var s = k.split(separator);
+      _.each(s, function(k, i) {
+
+      });
+    });
+    return into;
+  }
+
+  mixins.unflattenObj = function(obj, separator) {
+    separator = separator || '.';
+
+    var r = {};
+    _.each(obj, function(v, k) {
+      var s = k.split(separator);
+      var c = r;
+      var len = s.length - 1;
+      _.each(s, function(k, i) {
+        c = c[k] = (i === len ? v : (c[k] || {}));
+      });
+    });
+
+    return r;
+  };
+
   _.mixin(mixins);
 }).call(this);
