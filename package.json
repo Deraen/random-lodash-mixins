@@ -8,7 +8,7 @@
   "description": "Some functions Lodash is missing but I have found useful.",
   "license": "MIT",
   "main": "./src/random-lodash-mixins.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/Deraen/random-lodash-mixins.git"
