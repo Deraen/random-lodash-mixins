@@ -1,7 +1,7 @@
 var chai = require('chai');
 var should = chai.should();
 var _ = require('lodash');
-require('../src/random-lodash-mixins');
+_.mixin(require('../src/random-lodash-mixins'));
 
 describe('_.construct', function () {
   it('should give Object if parameter is defined', function() {

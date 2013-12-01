@@ -1,12 +1,12 @@
 (function (undefined) {
   var _;
+  var mixins = {};
   if (typeof require === 'function') {
     _ = require('lodash');
+    module.exports = mixins;
   } else {
     _ = window._;
   }
-
-  var mixins = {};
 
   mixins.construct = function construct(Target, value) {
     if (typeof value !== 'undefined') {
@@ -59,16 +59,6 @@
     separator = separator || '.';
     return flatten(obj, separator, {}, '');
   };
-
-  function unflatten(obj, separator, into) {
-    _.each(obj, function(v, k) {
-      var s = k.split(separator);
-      _.each(s, function(k, i) {
-
-      });
-    });
-    return into;
-  }
 
   mixins.unflattenObj = function(obj, separator) {
     separator = separator || '.';
