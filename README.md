@@ -1,4 +1,4 @@
-# Random functions
+# Random functions [![Build Status](https://travis-ci.org/Deraen/random-lodash-mixins.svg)](https://travis-ci.org/Deraen/random-lodash-mixins)
 
 Some functions Lo-Dash is missing but I have found useful.
 
