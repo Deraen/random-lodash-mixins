@@ -13,16 +13,21 @@
     "type": "git",
     "url": "https://github.com/Deraen/random-lodash-mixins.git"
   },
+  "scripts": {
+    "test": "mocha"
+  },
   "devDependencies": {
     "grunt": "~0.4.2",
-    "grunt-contrib-jshint": "~0.7.2",
-    "grunt-contrib-uglify": "~0.2.7",
+    "grunt-contrib-jshint": "~0.11.2",
+    "grunt-contrib-uglify": "~0.9.1",
     "matchdep": "~0.3.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "chai": "~1.8.1",
-    "grunt-mocha-test": "~0.8.0"
+    "grunt-contrib-watch": "~0.6.1",
+    "chai": "~2.3.0",
+    "mocha": "~2.2.5",
+    "grunt-mocha-test": "~0.12.7",
+    "lodash": "^3.9.3"
   },
-  "dependencies": {
-    "lodash": "~2.4.0"
+  "peerDependencies": {
+    "lodash": "^3.9.3"
   }
 }
