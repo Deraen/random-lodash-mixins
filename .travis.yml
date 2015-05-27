@@ -1,6 +1,10 @@
+sudo: false
 language: node.js
 node_js:
   - "iojs"
   - "0.12"
   - "0.10"
   - "0.8"
+cache:
+  directories:
+    - node_modules
